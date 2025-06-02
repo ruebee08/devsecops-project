@@ -1,16 +1,21 @@
 name: Lint Code
-on: [push, pull_request]  # Triggers on pushes/PRs
+on: [push, pull_request]
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    # Use your self-hosted runner instead of GitHub-hosted
+    runs-on: self-hosted
+    
     steps:
-      - uses: actions/checkout@v4  # Check out your repo
+      - uses: actions/checkout@v4
+      
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-      - name: Install flake8
+          
+      - name: Install dependencies
         run: pip install flake8
+          
       - name: Run flake8
         run: flake8 . --count --show-source --statistics
