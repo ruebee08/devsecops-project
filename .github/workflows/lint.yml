@@ -1,11 +1,11 @@
-name: Lint Code
+name: Lint and Trigger Jenkins
+
 on: [push, pull_request]
 
 jobs:
   lint:
-    # Use your self-hosted runner instead of GitHub-hosted
     runs-on: self-hosted
-    
+
     steps:
       - uses: actions/checkout@v4
       
@@ -14,8 +14,14 @@ jobs:
         with:
           python-version: "3.10"
           
-      - name: Install dependencies
+      - name: Install flake8
         run: pip install flake8
           
       - name: Run flake8
         run: flake8 . --count --show-source --statistics
+
+      - name: Trigger Jenkins Job
+        run: |
+          curl -X POST \
+          "http://localhost:8080/job/devsecops-pipeline/build?token=gh-trigger" \
+          --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }}"
