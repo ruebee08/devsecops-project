@@ -35,7 +35,7 @@ pipeline {
                 -Dsonar.sources=."""
 
             }
-        }
+        }}
 
         stage('Trivy Scan') {
             steps {
