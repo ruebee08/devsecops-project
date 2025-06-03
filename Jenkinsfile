@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'docker run myapp npm test'
+                 sh 'docker run --rm my-python-app'
             }
         }
     }
