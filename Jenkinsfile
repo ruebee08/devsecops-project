@@ -28,12 +28,12 @@ pipeline {
 
         stage('SonarQube Analysis') {
 
-           steps {
-        withSonarQubeEnv('sonarqube') {
-            sh '''${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+          steps {
+           withSonarQubeEnv('sonarqube') {
+            tool name: 'sonarscanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+            sh '''${tool('sonarscanner')}/bin/sonar-scanner \
               -Dsonar.projectKey=myapp \
               -Dsonar.sources=. \
-              -Dsonar.host.url=http://sonarqube:9000 \
               -Dsonar.projectVersion=1.0'''
         }
           }
