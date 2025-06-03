@@ -29,14 +29,14 @@ pipeline {
         stage('SonarQube Analysis') {
 
            steps {
-           withSonarQubeEnv('sonarqube') {
-            // This uses the SonarQube Scanner installed via Jenkins UI
-            script {
-                def scannerHome = tool 'sonarscanner' // Match the name you set in Jenkins > Global Tool Configuration
-                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=myapp -Dsonar.sources=. -Dsonar.projectVersion=1.0"
-            }
+        withSonarQubeEnv('sonarqube') {
+            sh '''${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+              -Dsonar.projectKey=myapp \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=http://sonarqube:9000 \
+              -Dsonar.projectVersion=1.0'''
         }
-    }
+          }
             }
 
         stage('Trivy Scan') {
