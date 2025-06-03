@@ -28,15 +28,19 @@ pipeline {
 
         stage('SonarQube Analysis') {
 
-          steps {
-           withSonarQubeEnv('sonarqube') {
-            tool name: 'sonarscanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-            sh '''${tool('sonarscanner')}/bin/sonar-scanner \
-              -Dsonar.projectKey=myapp \
-              -Dsonar.sources=. \
-              -Dsonar.projectVersion=1.0'''
+         steps {
+          withSonarQubeEnv('sonarqube') {
+            script {
+                def scannerHome = tool 'sonarscanner'
+                sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                      -Dsonar.projectKey=myapp \
+                      -Dsonar.sources=. \
+                      -Dsonar.projectVersion=1.0
+                """
+            }
         }
-          }
+          }   
             }
 
         stage('Trivy Scan') {
