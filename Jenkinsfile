@@ -27,15 +27,21 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonarqube') { // Use the exact name of your SonarQube server in Jenkins config
-                sh """
-                sonar-scanner \
-                -Dsonar.projectKey=myapp \
-                -Dsonar.sources=."""
 
+             environment {
+        SONARQUBE = 'sonarqube' // The name you configured in Jenkins > Global Tool Configuration
+      }
+        steps {
+        withSonarQubeEnv('sonarqube') {
+            sh """
+                sonar-scanner \
+                  -Dsonar.projectKey=myapp \
+                  -Dsonar.sources=. \
+                  -Dsonar.projectVersion=1.0
+            """
+        }
+          }
             }
-        }}
 
         stage('Trivy Scan') {
             steps {
