@@ -32,7 +32,7 @@ pipeline {
            withSonarQubeEnv('sonarqube') {
             // This uses the SonarQube Scanner installed via Jenkins UI
             script {
-                def scannerHome = tool 'SonarScanner' // Match the name you set in Jenkins > Global Tool Configuration
+                def scannerHome = tool 'sonarscanner' // Match the name you set in Jenkins > Global Tool Configuration
                 sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=myapp -Dsonar.sources=. -Dsonar.projectVersion=1.0"
             }
         }
