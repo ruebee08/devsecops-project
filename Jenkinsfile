@@ -28,16 +28,12 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                script {
-                    // Assuming sonar-scanner CLI installed or use SonarQube Jenkins plugin instead
-                    sh """
-                    sonar-scanner \
-                      -Dsonar.projectKey=my-python-app \
-                      -Dsonar.sources=. \
-                      -Dsonar.host.url=$SONARQUBE_URL \
-                      -Dsonar.login=your_sonar_token_here
-                    """
-                }
+                withSonarQubeEnv('sonarqube') { // Use the exact name of your SonarQube server in Jenkins config
+                sh """
+                sonar-scanner \
+                -Dsonar.projectKey=myapp \
+                -Dsonar.sources=."""
+
             }
         }
 
