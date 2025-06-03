@@ -29,7 +29,7 @@ pipeline {
         stage('SonarQube Analysis') {
 
          steps {
-          withSonarQubeEnv('sonarqube') {
+         withSonarQubeEnv('sonarqube') {
             script {
                 def scannerHome = tool 'sonarscanner'
                 sh """
@@ -40,7 +40,7 @@ pipeline {
                 """
             }
         }
-          }   
+    }  
             }
 
         stage('Trivy Scan') {
